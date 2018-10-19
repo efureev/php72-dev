@@ -1,4 +1,4 @@
-FROM php:7.2.10-fpm-alpine
+FROM php:7.2-fpm-alpine
 LABEL Description="Application container"
 LABEL Version="v2"
 
@@ -11,7 +11,8 @@ ENV PHP_XDEBUG_VERSION 2.6.1
 
 RUN rm -rf /home/app \
         && mkdir /home/app \
-        && chmod 777 /home/app
+        && chmod 777 /home/app \
+        && chown ${USER_ID:-1000}:${GROUP_ID:-1000} /home/app
 
 RUN addgroup -g ${GROUP_ID:-1000} app && \
     adduser -D -u ${USER_ID:-1000} -h /home/app -G app app
