@@ -21,17 +21,17 @@ RUN apk add --update --no-cache git openssh-client
 
 # persistent / runtime deps
 ENV PHPIZE_DEPS \
-    autoconf \
+#    autoconf \
     cmake \
-    file \
-    g++ \
-    gcc \
-    libc-dev \
+#    file \
+#    g++ \
+#    gcc \
+#    libc-dev \
     pcre-dev \
-    make \
+#    make \
     git \
-    pkgconf \
-    re2c \
+#    pkgconf \
+#    re2c \
     # for GD
     freetype-dev \
     libpng-dev  \
@@ -97,6 +97,7 @@ RUN set -xe \
         sysvshm \
         wddx \
         xsl \
+        zip \
 #        opcache \
 #    && echo -e "opcache.memory_consumption=128\n\
 #opcache.interned_strings_buffer=8\n\
