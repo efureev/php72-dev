@@ -21,17 +21,17 @@ RUN apk add --update --no-cache git openssh-client
 
 # persistent / runtime deps
 ENV PHPIZE_DEPS \
-#    autoconf \
+    autoconf \
     cmake \
-#    file \
-#    g++ \
-#    gcc \
-#    libc-dev \
+    file \
+    g++ \
+    gcc \
+    libc-dev \
     pcre-dev \
-#    make \
+    make \
     git \
-#    pkgconf \
-#    re2c \
+    pkgconf \
+    re2c \
     # for GD
     freetype-dev \
     libpng-dev  \
@@ -56,8 +56,8 @@ RUN apk add --no-cache --virtual .persistent-deps \
     # etc
     bash nano
 
+# workaround for rabbitmq linking issue
 RUN set -xe \
-    # workaround for rabbitmq linking issue
     && ln -s /usr/lib /usr/local/lib64 \
     && apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
@@ -73,9 +73,10 @@ RUN set -xe \
     && docker-php-ext-configure pdo_mysql --with-pdo-mysql \
     && docker-php-ext-configure pdo_pgsql --with-pgsql \
     && docker-php-ext-configure mbstring --enable-mbstring \
-    && docker-php-ext-configure soap --enable-soap \
+    && docker-php-ext-configure soap --enable-soap
 #    && docker-php-ext-configure opcache --enable-opcache \
-    && docker-php-ext-install -j$(nproc) \
+
+RUN docker-php-ext-install \
         gd \
         bcmath \
         intl \
@@ -97,7 +98,8 @@ RUN set -xe \
         sysvshm \
         wddx \
         xsl \
-        zip \
+        zip
+
 #        opcache \
 #    && echo -e "opcache.memory_consumption=128\n\
 #opcache.interned_strings_buffer=8\n\
@@ -106,8 +108,10 @@ RUN set -xe \
 #opcache.fast_shutdown=1\n\
 #opcache.enable_cli=1\n\
 #opcache.enable=1\n" > /usr/local/etc/php/conf.d/opcache.ini \
-    # For phpunit coverage
-    && pecl install xdebug-${PHP_XDEBUG_VERSION} \
+
+
+# For phpunit coverage
+RUN pecl install xdebug-${PHP_XDEBUG_VERSION} \
     && docker-php-ext-enable xdebug \
     && git clone --branch ${PHP_REDIS_VERSION} https://github.com/phpredis/phpredis /tmp/phpredis \
         && cd /tmp/phpredis \
