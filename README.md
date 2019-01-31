@@ -5,7 +5,7 @@ Docker PHP 7.2 Dev
 docker pull feugene/php72-dev
 ```
 
-[PHP Modules]
+[PHP Modules]  
 bcmath
 bz2
 calendar
@@ -62,5 +62,5 @@ xsl
 zip
 zlib
 
-[Zend Modules]
+[Zend Modules]  
 Xdebug
